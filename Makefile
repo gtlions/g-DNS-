@@ -31,10 +31,12 @@ binaryall: check-go
 	$(info Step. 编译跨平台二进制可执行程序)
 	@rm -rf $(BUILD_DIR)/$(RELEASE_BIN).*
 	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-extldflags "-static -s -w"' -o $(BUILD_DIR)/$(RELEASE_BIN).linux
-	@CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -a -ldflags '-extldflags "-static -s -w"' -o $(BUILD_DIR)/$(RELEASE_BIN).osx
+	@CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -a -ldflags '-extldflags "-static -s -w"' -o $(BUILD_DIR)/$(RELEASE_BIN).amd64.osx
+	@CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -a -ldflags '-extldflags "-static -s -w"' -o $(BUILD_DIR)/$(RELEASE_BIN).arm64.osx
 	@CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -ldflags '-extldflags "-static -s -w"' -o $(BUILD_DIR)/$(RELEASE_BIN).win
 	@if [ 0 -eq $(ISUPX) ] ; then \
 		upx -9 $(BUILD_DIR)/$(RELEASE_BIN).linux ; \
-		upx -9 $(BUILD_DIR)/$(RELEASE_BIN).osx ; \
+		upx -9 $(BUILD_DIR)/$(RELEASE_BIN).osx.amd64.osx ; \
+		upx -9 $(BUILD_DIR)/$(RELEASE_BIN).osx.arm64.osx ; \
 		upx -9 $(BUILD_DIR)/$(RELEASE_BIN).win ; \
 	fi

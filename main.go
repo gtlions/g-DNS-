@@ -15,16 +15,23 @@ func main() {
 	ipv6s := []string{}
 	// 定义不同运营商的 DNS 服务器
 	dnsServers := []map[string]string{
-		{"name": "Google", "ip": "8.8.8.8"},
-		{"name": "Cloudflare", "ip": "1.1.1.1"},
+		{"name": "CNNIC", "ip": "1.2.4.8"},
 		{"name": "114", "ip": "114.114.114.114"},
-		{"name": "电信", "ip": "202.96.209.5"},
-		{"name": "联通", "ip": "202.106.0.20"},
-		{"name": "移动", "ip": "202.108.22.5"},
+		{"name": "DNSPod", "ip": "119.29.29.29"},
 		{"name": "阿里云", "ip": "223.5.5.5"},
 		{"name": "腾讯云", "ip": "183.60.83.19"},
 		{"name": "百度云", "ip": "180.76.76.76"},
 		{"name": "华为云", "ip": "122.112.208.1"},
+		{"name": "电信", "ip": "202.96.209.5"},
+		{"name": "联通", "ip": "202.106.0.20"},
+		{"name": "移动", "ip": "202.108.22.5"},
+
+		{"name": "香港宽频", "ip": "203.80.96.10"},
+		{"name": "中華電信", "ip": "168.95.192.1"},
+
+		{"name": "Google", "ip": "8.8.8.8"},
+		{"name": "Cloudflare", "ip": "1.1.1.1"},
+		{"name": "OpenDNS", "ip": "208.67.222.222"},
 	}
 
 	for _, dnsServer := range dnsServers {
@@ -40,11 +47,11 @@ func main() {
 		// 查询域名的 A 记录
 		ip, err := resolver.LookupHost(context.Background(), domain)
 		if err != nil {
-			fmt.Printf("Error querying DNS server %s: %v\n", dnsServer["name"], err)
+			fmt.Printf("Error querying DNS server %s(%s): %v\n", dnsServer["name"], dnsServer["ip"], err)
 			continue
 		}
 
-		fmt.Printf("DNS Server: %s, Domain: %s, IPs: %v\n", dnsServer["name"], domain, ip)
+		fmt.Printf("DNS Server: %s(%s), Domain: %s, IPs: %v\n", dnsServer["name"], dnsServer["ip"], domain, ip)
 
 		for _, v := range ip {
 			found := false
@@ -72,6 +79,6 @@ func main() {
 		}
 	}
 	fmt.Println()
-	fmt.Println("IPs(v4):", ipv4s)
-	fmt.Println("IPs(v6):", ipv6s)
+	fmt.Printf("IPs(v4 / %d): %v\n", len(ipv4s), ipv4s)
+	fmt.Printf("IPs(v6 / %d): %v\n", len(ipv6s), ipv6s)
 }
