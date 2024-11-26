@@ -1,2 +1,2 @@
-# g-DNS-
-gdnslookup
+# gdnslookup
+gdnslookup qyapi.weixin.qq.com
